@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zookeeper case study | Stasi Papageorgiou</title>
+  <meta name="description" content="How I designed Zookeeper, a dashboard platform that unifies performance and billing at Treetown Tech.">
+  <link rel="canonical" href="https://www.stasi.page/work/zookeeper/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Stasi Papageorgiou">
+  <meta property="og:title" content="Zookeeper case study | Stasi Papageorgiou">
+  <meta property="og:description" content="How I designed Zookeeper, a dashboard platform that unifies performance and billing at Treetown Tech.">
+  <meta property="og:url" content="https://www.stasi.page/work/zookeeper/">
+  <meta property="og:image" content="https://www.stasi.page/assets/images/og-image.png">
+  <meta property="og:image:alt" content="Stasi Papageorgiou, product designer">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#f9fbfd" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14111d" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
+  <link rel="preload" href="../../assets/fonts/montserrat-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+  <script src="../../assets/js/theme.js"></script>
+  <script src="../../assets/js/main.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header" id="top">
+    <div class="container">
+      <a class="wordmark" href="../../">
+        <svg viewBox="0 0 22 18" aria-hidden="true" focusable="false"><path class="mark-1" d="M1 4 L11 4 L11 7.1 A2.4 2.4 0 1 1 11 10.9 L11 14 L1 14 Z"/><path class="mark-2" d="M11 4 L21 4 L21 14 L11 14 L11 10.9 A2.4 2.4 0 1 0 11 7.1 Z"/></svg>
+        <span>Stasi Papageorgiou<span class="visually-hidden">, home</span></span>
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="../../#work" aria-current="page">Work</a></li>
+          <li><a href="../../about/">About</a></li>
+          <li><a href="../../play/">Play</a></li>
+          <li><a href="https://drive.google.com/file/d/1NuxitC88hY9u8MUWeZoYY8BVDsDRmi2i/view?usp=sharing">Resume</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" data-project="zookeeper">
+    <div class="container">
+      <header class="page-head">
+        <a class="back-link" href="../../#work">Back to all work</a>
+        <p class="eyebrow">Treetown Tech internship</p>
+        <h1>Zookeeper</h1>
+        <p class="lead">One place to see how the company is performing and to get billing right before invoices go out.</p>
+        <dl class="meta">
+          <div><dt>My role</dt><dd>UX Designer</dd></div>
+          <div><dt>Team</dt><dd>Me, with mentor Kristen Greco</dd></div>
+          <div><dt>Timeline</dt><dd>May to August 2026</dd></div>
+          <div><dt>Tools</dt><dd>Figma, Tempo, Sage Intacct</dd></div>
+        </dl>
+      </header>
+
+
+    
+
+      <section class="case-section" aria-labelledby="brief">
+        <h2 id="overview">Overview</h2>
+        <div class="brief">
+          <div class="brief__item">
+            <span class="brief__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7.5v5.5M12 16.5v.01"/></svg></span>
+            <h3>The challenge</h3>
+            <p>There was no single view connecting department metrics to project and individual performance. Closing that gap took hours of manual checking every cycle to make sure no mistakes reached clients on their invoices.</p>
+            <figure class="brief__figure">
+              <img src="../../assets/images/zookeeper/before.jpg" alt="Before Zookeeper: a Django admin panel, a Jira time report, and a separate project manager dashboard used side by side" width="2000" height="1029" loading="lazy" decoding="async">
+              <figcaption>Before</figcaption>
+            </figure>
+          </div>
+          <div class="brief__item">
+            <span class="brief__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h13v4.2a2.6 2.6 0 1 1 0 4.6V18h-4.2a2.6 2.6 0 1 0-4.6 0H4z"/></svg></span>
+            <h3>The solution</h3>
+            <p>Zookeeper, a responsive dashboard platform that brings both systems into one interface. It traces performance from the department level down to each person and flags billing discrepancies before invoices go out.</p>
+            <figure class="brief__figure">
+              <img src="../../assets/images/zookeeper/after.png" alt="Zookeeper's billing page, with data imports and the billing tasks to review in one place" width="1440" height="953" loading="lazy" decoding="async">
+              <figcaption>After</figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="constraint">
+          <span class="constraint__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg></span>
+          <div>
+            <div class="constraint__head">
+              <h3>The constraint: Buildable now</h3>
+            </div>
+            <p>Engineering would build directly from my designs, so every screen had to be feasible right away. I could only use data that already existed in the back end. No new data sources and no wish list features.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="case-section" aria-labelledby="process">
+        <h2 id="process">How I worked</h2>
+        <div class="process">
+          <ol class="process__steps">
+            <li>
+              <span class="process__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 3.5h6v3H9zM7 5H5.5A1.5 1.5 0 0 0 4 6.5v13A1.5 1.5 0 0 0 5.5 21h13a1.5 1.5 0 0 0 1.5-1.5v-13A1.5 1.5 0 0 0 18.5 5H17M8 11h8M8 15h5"/></svg></span>
+              <h3>Scope</h3>
+              <p>Requirements with each stakeholder group</p>
+            </li>
+            <li>
+              <span class="process__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4zM4 9h16M10 9v11"/></svg></span>
+              <h3>Wireframe and prototype</h3>
+              <p>The key flows for each stakeholder view</p>
+            </li>
+            <li>
+              <span class="process__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM3 20a6 6 0 0 1 12 0M15.5 11.5l2 2 4-4"/></svg></span>
+              <h3>Test</h3>
+              <p>Flows tested with the people who would use them</p>
+            </li>
+            <li>
+              <span class="process__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 3H6.5A1.5 1.5 0 0 0 5 4.5v15A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5V8zM14 3v5h5M9 13h6M9 17h4"/></svg></span>
+              <h3>Hand off</h3>
+              <p>Written specs, so engineering could build from the designs</p>
+            </li>
+          </ol>
+          <div class="process__base">
+            <span class="process__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5zM3 12.5l9 5 9-5M3 16.5l9 5 9-5"/></svg></span>
+            <div>
+              <p class="process__eyebrow">Underneath every step</p>
+              <h3>A shared Figma library</h3>
+              <p>Every screen was built with auto layout, variants, component properties, and variables, so the team could build and extend screens consistently.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="case-section" aria-labelledby="stakeholders">
+        <h2 id="stakeholders">One platform, five questions</h2>
+        <div class="prose">
+          <p>Each stakeholder group came to the data with a different question. I designed a view to answer each one.</p>
+        </div>
+        
+        <div class="stakeholder">
+          <p class="who">Employees</p>
+          <blockquote>&ldquo;Am I on track?&rdquo;</blockquote>
+          <div class="prose"><p>Employees and their managers check progress against weekly and annual billable goals, and see right away whether they need to adjust their pace.</p></div>
+          <figure class="figure">
+          <img src="../../assets/images/zookeeper/employee-week.png" alt="Employee week view showing billable hours against the weekly goal" width="1600" height="1000" loading="lazy" decoding="async">
+          <figcaption>Employee week view.</figcaption>
+        </figure>
+        </div>
+        <div class="stakeholder">
+          <p class="who">Project managers</p>
+          <blockquote>&ldquo;How are my projects doing?&rdquo;</blockquote>
+          <div class="prose"><p>Project managers need project health at a glance: is the project on budget, and how many billable hours are left?</p></div>
+          <figure class="figure">
+          <video src="../../assets/images/zookeeper/project-detail.mp4" poster="../../assets/images/zookeeper/project-detail-poster.jpg" width="2874" height="1916" muted loop playsinline controls preload="none" data-autoplay aria-label="Screen recording of the project detail flow, showing budget status and remaining billable hours"></video>
+          <figcaption>Project detail flow.</figcaption>
+        </figure>
+        </div>
+        <div class="stakeholder">
+          <p class="who">Department directors</p>
+          <blockquote>&ldquo;Who is hitting their target?&rdquo;</blockquote>
+          <div class="prose"><p>Directors wanted to see who on their team was meeting their billable target and, when someone wasn't, where their time was going on internal work.</p></div>
+          <figure class="figure">
+          <img src="../../assets/images/zookeeper/department.png" alt="Department view comparing each team member's billable and internal hours" width="1600" height="1000" loading="lazy" decoding="async">
+          <figcaption>Department view.</figcaption>
+        </figure>
+        </div>
+        <div class="stakeholder">
+          <p class="who">Billing team</p>
+          <blockquote>&ldquo;Are our invoices accurate?&rdquo;</blockquote>
+          <div class="prose"><p>The billing team validates every Tempo timesheet before invoices go out: correct Jira ticket and epic links, time amounts, billed accounts, and 15 minute increments. HR also has setup tasks that keep employees and projects connected between Tempo and Sage Intacct. I designed both into one guided billing cycle that surfaces discrepancies in seconds.</p></div>
+          <figure class="figure">
+          <video src="../../assets/images/zookeeper/billing-cycle.mp4" poster="../../assets/images/zookeeper/billing-cycle-poster.jpg" width="2874" height="1916" muted loop playsinline controls preload="none" data-autoplay aria-label="Screen recording of the billing cycle flow, reviewing flagged timesheet errors before invoicing"></video>
+          <figcaption>Billing cycle flow.</figcaption>
+        </figure>
+        </div>
+        <div class="stakeholder">
+          <p class="who">Company partners</p>
+          <blockquote>&ldquo;How is the company doing?&rdquo;</blockquote>
+          <div class="prose"><p>Partners get a high level view by department, client, and project, so they can see where to adjust and where risk is building.</p></div>
+          <div class="figure-grid">
+          <figure class="figure">
+          <img src="../../assets/images/zookeeper/company-overview.png" alt="Departments page comparing each department's billable and internal hours against its yearly target" width="2879" height="3112" loading="lazy" decoding="async">
+        </figure>
+          <figure class="figure">
+          <img src="../../assets/images/zookeeper/client-overview.png" alt="Clients page showing each client's active projects, total revenue, outstanding balance, and how long they have been a client" width="2879" height="3108" loading="lazy" decoding="async">
+        </figure>
+        </div>
+        </div>
+      </section>
+
+      <section class="case-section" aria-labelledby="results">
+        <h2 id="results">Results</h2>
+        <div class="prose">
+          <p>Every stakeholder group responded well to the designs, and development is underway so Zookeeper can become part of everyday operations.</p>
+          <p>The first version of the billing cycle tool already <strong>cut the billing cycle by 2 hours per project manager</strong>.</p>
+        </div>
+      </section>
+
+      <!--
+        OPTIONAL: add a short reflection here. Two or three sentences answering:
+        What was the hardest tradeoff? What would you test or change next?
+        <section class="case-section" aria-labelledby="reflection">
+          <h2 id="reflection">What I learned</h2>
+          <div class="prose"><p>...</p></div>
+        </section>
+      -->
+
+      <a class="next" data-project="white-pine" href="../../work/white-pine/">
+        <p class="eyebrow">Next case study</p>
+        <strong>White Pine Library Cooperative</strong>
+      </a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span data-year>2026</span> Anastasia Papageorgiou</p>
+      <ul>
+        <li><a href="mailto:stasi.papageorgiou@gmail.com">Email</a></li>
+        <li><a href="https://www.linkedin.com/in/papageorgiou-anastasia">LinkedIn</a></li>
+        <li><a href="https://drive.google.com/file/d/1NuxitC88hY9u8MUWeZoYY8BVDsDRmi2i/view?usp=sharing">Resume</a></li>
+        <li><a href="#top">Back to top</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>
