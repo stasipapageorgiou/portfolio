@@ -582,6 +582,7 @@ a:hover { color: var(--accent-hover); text-decoration-thickness: 0.14em; }
   list-style: none;
 }
 @media (min-width: 700px) { .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.stats + .prose { margin-top: 1.75rem; }
 .stats li {
   container-type: inline-size;
   padding: 1.5rem;
@@ -636,6 +637,33 @@ a:hover { color: var(--accent-hover); text-decoration-thickness: 0.14em; }
 .figure-grid { display: grid; gap: 1.5rem; margin-top: 2rem; }
 .figure-grid .figure { margin-top: 0; }
 @media (min-width: 760px) { .figure-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* Phone screenshots and recordings: kept to a comfortable height, centered */
+.figure--phone img,
+.figure--phone video { width: auto; max-width: 100%; max-height: 38rem; margin-inline: auto; }
+.figure--phone figcaption { text-align: center; margin-inline: auto; }
+/* No frame around phone recordings. Their white backgrounds blend into the
+   page (multiply turns white into whatever is behind it), so the phone
+   looks cut out. Dark mode can't blend white away, so the corners are
+   rounded off to follow the phone instead. */
+.figure--phone img,
+.figure--phone video { border: 0; border-radius: 0; background: none; mix-blend-mode: multiply; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .figure--phone :is(img, video) { mix-blend-mode: normal; border-radius: 13% / 6.5%; }
+}
+:root[data-theme="dark"] .figure--phone :is(img, video) { mix-blend-mode: normal; border-radius: 13% / 6.5%; }
+/* A grid of sketch photos, cropped square; the lightbox shows each in full */
+.sketch-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+@media (min-width: 700px) { .sketch-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+.figure .sketch-grid img { aspect-ratio: 1; object-fit: cover; border-radius: var(--radius-md); }
+/* Images that bring their own frame (device mockups, cards, cut-outs) */
+.figure--bare img { border: 0; border-radius: 0; background: none; }
+/* A row of quote images */
+.figure-quotes { display: grid; gap: 1rem; justify-items: center; }
+.figure-quotes img { max-width: 18rem; }
+@media (min-width: 640px) {
+  .figure-quotes { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: center; }
+  .figure-quotes img { max-width: 100%; }
+}
 
 /* Before and after comparisons */
 .compare { display: grid; gap: 1.5rem; margin-top: 2rem; }
@@ -647,6 +675,10 @@ a:hover { color: var(--accent-hover); text-decoration-thickness: 0.14em; }
 
 /* Brief: challenge, solution, and constraint chunked in one filled panel.
    Used on every case study, just after the overview. */
+/* The challenge/solution panel follows the overview closely; its heading is
+   for screen readers only, so it adds no space of its own */
+.case-section:has(> .brief) { padding-top: clamp(2rem, 4vw, 2.75rem); }
+.case-section > h2.visually-hidden + .brief { margin-top: 0; }
 .brief {
   /* Inverted: a solid block of the project's color, so it stands apart
      from the light cards around it. In dark mode it flips to a light block. */
@@ -681,6 +713,29 @@ a:hover { color: var(--accent-hover); text-decoration-thickness: 0.14em; }
   border-radius: var(--radius-md);
   background: var(--surface);
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--on-accent) 25%, transparent);
+}
+/* Device mockups with transparent edges: no box behind them */
+/* Phone screenshots in the panel: kept short and centered */
+.brief__figure--phone { width: fit-content; max-width: 100%; margin-inline: auto; }
+.brief__figure--phone img {
+  width: auto;
+  max-width: 100%;
+  max-height: 26rem;
+  margin-inline: auto;
+  display: block;
+  /* Cut-out phones with transparent backgrounds: no box behind them */
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+.brief__figure--bare img {
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  /* Same height side by side: taller mockups are trimmed from the bottom */
+  aspect-ratio: 645 / 373;
+  object-fit: cover;
+  object-position: top;
 }
 .brief__figure figcaption {
   position: absolute;
@@ -925,6 +980,14 @@ a:hover { color: var(--accent-hover); text-decoration-thickness: 0.14em; }
 
 /* ---------- About ---------- */
 /* The first section sits close under the page intro */
+/* A heading that introduces a group of case study sections */
+.part-head {
+  padding-top: clamp(4rem, 9vw, 7rem);
+  border-bottom: 2px solid var(--line);
+  padding-bottom: 1rem;
+}
+.part-head h2 { font-size: var(--step-4); letter-spacing: -0.03em; line-height: 1.05; }
+.part-head + .case-section { padding-top: clamp(2rem, 4vw, 3rem); }
 .page-head + .case-section { padding-top: clamp(0.5rem, 2vw, 1.25rem); }
 /* "About" stacks just above and to the left of the big "Stasi." */
 .page-head--about { padding-bottom: 0; }
@@ -1022,16 +1085,20 @@ a:hover { color: var(--accent-hover); text-decoration-thickness: 0.14em; }
 .timeline h3 { font-size: var(--step-1); }
 .timeline p { margin-top: 0.2rem; color: var(--muted); }
 
-/* Outside of work: photo collage. Ballet is tall, bedazzling is wide. */
+/* Outside of work: photo collage. Hobbies on top, travel along the bottom. */
 .collage {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-auto-rows: clamp(9rem, 30vw, 13rem);
+  grid-auto-rows: clamp(8rem, 28vw, 10rem);
   grid-template-areas:
-    "ballet swing"
-    "ballet reading"
-    "bedazzling bedazzling"
-    "drawing travel";
+    "lotion perfume"
+    "lotion perfume"
+    "reading drawing"
+    "reading drawing"
+    "bergerac bergerac"
+    "bergerac bergerac"
+    "bergen belgrade"
+    "bergen belgrade";
   gap: 0.75rem;
   margin-top: 2rem;
   padding: 0;
@@ -1040,18 +1107,21 @@ a:hover { color: var(--accent-hover); text-decoration-thickness: 0.14em; }
 @media (min-width: 760px) {
   .collage {
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    grid-auto-rows: clamp(10rem, 16vw, 14rem);
+    grid-auto-rows: clamp(8rem, 13vw, 10.5rem);
     grid-template-areas:
-      "ballet swing reading drawing"
-      "ballet bedazzling bedazzling travel";
+      "lotion perfume reading drawing"
+      "lotion perfume reading drawing"
+      "bergerac bergerac bergen belgrade"
+      "bergerac bergerac bergen belgrade";
   }
 }
-.collage__ballet { grid-area: ballet; }
-.collage__swing { grid-area: swing; }
-.collage__bedazzling { grid-area: bedazzling; }
+.collage__bergerac { grid-area: bergerac; }
+.collage__lotion { grid-area: lotion; }
 .collage__reading { grid-area: reading; }
+.collage__bergen { grid-area: bergen; }
 .collage__drawing { grid-area: drawing; }
-.collage__travel { grid-area: travel; }
+.collage__perfume { grid-area: perfume; }
+.collage__belgrade { grid-area: belgrade; }
 .collage figure { position: relative; height: 100%; }
 .collage img {
   width: 100%;
@@ -1358,3 +1428,98 @@ a.next[data-project]:hover { background: var(--surface-strong); }
   opacity: var(--glow-opacity);
   filter: saturate(0.6);
 }
+
+/* ---------- Lightbox ----------
+   Framed images open large in the middle of the screen (built by main.js). */
+.is-zoomable { cursor: zoom-in; }
+.lightbox {
+  width: 100vw;
+  height: 100vh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: clamp(1rem, 4vw, 3rem);
+  border: 0;
+  background: transparent;
+  color: #fff;
+  cursor: zoom-out;
+}
+.lightbox[open] { display: grid; place-items: center; }
+/* Rapid clicks on the arrows count as double-clicks, which would select the
+   image and wash it in the selection color; nothing in here needs selecting */
+.lightbox { -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+.lightbox img { -webkit-user-drag: none; }
+.lightbox ::selection { background: transparent; }
+.lightbox::backdrop { background: rgb(14 11 22 / 0.86); }
+.lightbox__figure {
+  display: grid;
+  justify-items: center;
+  gap: 0.75rem;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0;
+}
+.lightbox__figure img {
+  max-width: min(100%, 1600px);
+  max-height: calc(100vh - 2 * clamp(1rem, 4vw, 3rem) - 4.5rem);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+  cursor: default;
+}
+.lightbox__figure figcaption { max-width: 60ch; text-align: center; font-size: var(--step--1); color: rgb(255 255 255 / 0.85); }
+.lightbox__close {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.14);
+  color: #fff;
+  cursor: pointer;
+}
+.lightbox__close:hover,
+.lightbox__nav:hover { background: rgb(255 255 255 / 0.24); }
+.lightbox__nav {
+  position: fixed;
+  top: 50%;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-top: -24px;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.14);
+  color: #fff;
+  cursor: pointer;
+}
+.lightbox__nav[hidden] { display: none; }
+.lightbox__nav--prev { left: clamp(0.5rem, 2vw, 1.5rem); }
+.lightbox__nav--next { right: clamp(0.5rem, 2vw, 1.5rem); }
+.lightbox__nav svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.lightbox__count { margin: 0; font-size: 0.8125rem; color: rgb(255 255 255 / 0.65); }
+/* Leave room at the sides for the arrows */
+.lightbox { padding-inline: clamp(3.75rem, 8vw, 6rem); }
+/* Phones: arrows sit along the bottom so the image keeps the full width */
+@media (max-width: 599px) {
+  .lightbox { padding: 4rem 1rem 5rem; }
+  .lightbox__nav { top: auto; bottom: 1rem; margin-top: 0; }
+  .lightbox__nav--prev { left: 1rem; }
+  .lightbox__nav--next { right: 1rem; }
+}
+.lightbox__close svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.lightbox__close { z-index: 1; }
+.lightbox-open { overflow: hidden; }
+@media (prefers-reduced-motion: no-preference) {
+  .lightbox[open] { animation: lightbox-in 180ms ease-out; }
+  .lightbox[open]::backdrop { animation: lightbox-fade 180ms ease-out; }
+}
+@keyframes lightbox-in { from { opacity: 0; transform: scale(0.97); } }
+@keyframes lightbox-fade { from { opacity: 0; } }

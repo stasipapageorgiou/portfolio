@@ -242,3 +242,96 @@ if (playBg) {
   }
   build();
 }
+
+// Lightbox: click (or press Enter on) a framed image to see it large in the
+// middle of the screen. Skips the About portrait and the home page work cards.
+// Images that share a container (a gallery, the collage, a pair of figures)
+// get previous and next arrows, plus the arrow keys, to move between them.
+const zoomable = [...document.querySelectorAll("main figure img")].filter(
+  (img) => !img.closest(".portrait, .puzzle")
+);
+if (zoomable.length && "HTMLDialogElement" in window) {
+  const groupSelector = ".gallery, .collage, .figure-grid, .figure-quotes, .sketch-grid, .brief";
+  const arrow = (dir, label, path) =>
+    '<button type="button" class="lightbox__nav lightbox__nav--' + dir + '" aria-label="' + label + '">' +
+    '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="' + path + '"/></svg></button>';
+
+  const dialog = document.createElement("dialog");
+  dialog.className = "lightbox";
+  dialog.setAttribute("aria-label", "Enlarged image");
+  dialog.innerHTML =
+    '<button type="button" class="lightbox__close" aria-label="Close enlarged image">' +
+    '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg></button>' +
+    arrow("prev", "Previous image", "M15 5l-7 7 7 7") +
+    arrow("next", "Next image", "M9 5l7 7-7 7") +
+    '<figure class="lightbox__figure"><img alt=""><figcaption></figcaption>' +
+    '<p class="lightbox__count" aria-live="polite"></p></figure>';
+  document.body.append(dialog);
+  const bigImg = dialog.querySelector("img");
+  const caption = dialog.querySelector("figcaption");
+  const count = dialog.querySelector(".lightbox__count");
+  const prevBtn = dialog.querySelector(".lightbox__nav--prev");
+  const nextBtn = dialog.querySelector(".lightbox__nav--next");
+  let opener = null;
+  let group = [];
+  let index = 0;
+
+  const show = (i) => {
+    index = (i + group.length) % group.length;
+    const img = group[index];
+    bigImg.src = img.currentSrc || img.src;
+    bigImg.alt = img.alt;
+    const text = img.closest("figure").querySelector(":scope > figcaption")?.textContent.trim() || "";
+    caption.textContent = text;
+    caption.hidden = !text;
+    const many = group.length > 1;
+    prevBtn.hidden = nextBtn.hidden = count.hidden = !many;
+    count.textContent = many ? index + 1 + " of " + group.length : "";
+  };
+
+  const open = (img) => {
+    opener = img;
+    const container = img.closest(groupSelector);
+    group = container ? zoomable.filter((other) => container.contains(other)) : [img];
+    show(group.indexOf(img));
+    dialog.showModal();
+    document.documentElement.classList.add("lightbox-open");
+  };
+
+  dialog.addEventListener("close", () => {
+    document.documentElement.classList.remove("lightbox-open");
+    bigImg.removeAttribute("src");
+    if (opener) opener.focus();
+  });
+  prevBtn.addEventListener("click", (event) => {
+    event.stopPropagation();
+    show(index - 1);
+  });
+  nextBtn.addEventListener("click", (event) => {
+    event.stopPropagation();
+    show(index + 1);
+  });
+  dialog.addEventListener("keydown", (event) => {
+    if (group.length < 2) return;
+    if (event.key === "ArrowLeft") show(index - 1);
+    if (event.key === "ArrowRight") show(index + 1);
+  });
+  // Close on the X, or a click anywhere outside the image and the arrows
+  dialog.addEventListener("click", (event) => {
+    if (event.target !== bigImg) dialog.close();
+  });
+
+  zoomable.forEach((img) => {
+    img.classList.add("is-zoomable");
+    img.tabIndex = 0;
+    img.setAttribute("role", "button");
+    img.setAttribute("aria-label", "Enlarge image: " + img.alt);
+    img.addEventListener("click", () => open(img));
+    img.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        open(img);
+      }
+    });
+  });
+}
