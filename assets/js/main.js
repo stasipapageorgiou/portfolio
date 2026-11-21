@@ -25,7 +25,8 @@ document.querySelectorAll("[data-year]").forEach((el) => {
 });
 
 // Light and dark toggle. Added here so the header markup stays the same on every page.
-// The saved choice is applied early by theme.js.
+// Pages start in the system setting; a toggled choice lasts for this visit
+// only (see theme.js, which applies it before the page paints).
 const navList = document.querySelector(".site-nav ul");
 if (navList) {
   const systemDark = window.matchMedia("(prefers-color-scheme: dark)");
@@ -48,7 +49,7 @@ if (navList) {
     const next = isDark() ? "light" : "dark";
     root.dataset.theme = next;
     try {
-      localStorage.setItem("theme", next);
+      sessionStorage.setItem("theme", next);
     } catch (error) {
       // Storage is unavailable. The choice lasts for this page only.
     }
